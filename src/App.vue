@@ -1,60 +1,122 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app>
+        <v-card class="overflow-hidden">
+            <v-app-bar
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+                    color="#fcb69f"
+                    dark
+                    src="https://picsum.photos/1920/1080?random"
+            >
+                <template v-slot:img="{ props }">
+                    <v-img
+                            v-bind="props"
+                            gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
+                    ></v-img>
+                </template>
 
-      <v-spacer></v-spacer>
+                <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+                <v-toolbar-title>Simple Online Shop</v-toolbar-title>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+                <v-spacer></v-spacer>
+
+                <v-btn icon>
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn>
+
+                <v-btn icon>
+                    <v-icon>mdi-heart</v-icon>
+                </v-btn>
+
+                <v-btn icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+            </v-app-bar>
+
+        </v-card>
+        <v-navigation-drawer
+                v-model="drawer"
+                absolute
+                temporary
+        >
+            <v-list
+
+                    nav
+                    dense
+            >
+                <v-list-item-group
+                        v-model="group"
+
+
+                >
+                    <v-list-item disabled>
+                        <v-img
+                                :src="require('./assets/logo.svg')"
+                                class="my-3"
+                                contain
+                                height="100"
+                        />
+                    </v-list-item>
+
+
+                    <v-list-item to="/">
+                        <v-list-item-icon>
+                            <v-icon>mdi-home</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-content >Home</v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item to="/about">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+
+                      <v-list-item-content >About</v-list-item-content>
+                    </v-list-item>
+
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
+        <v-content class="mt-10">
+            <router-view/>
+        </v-content>
+    </v-app>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld';
+    import HelloWorld from './components/HelloWorld';
 
-export default {
-  name: 'App',
+    export default {
+        name: 'App',
 
-  components: {
-    HelloWorld,
-  },
+        components: {
+            HelloWorld,
+        },
 
-  data: () => ({
-    //
-  }),
-};
+        data: () => ({
+            drawer: false,
+        }),
+    };
 </script>
+<style lang="scss">
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+    }
+
+    #nav {
+        padding: 30px;
+
+        a {
+            font-weight: bold;
+            color: #2c3e50;
+
+            &.router-link-exact-active {
+                color: #42b983;
+            }
+        }
+    }
+</style>
