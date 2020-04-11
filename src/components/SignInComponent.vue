@@ -47,8 +47,15 @@
         </v-card-text>
 
       </v-card>
-    </v-flex>
 
+
+    </v-flex>
+    <div align="right">
+      <vue-recaptcha
+
+              :sitekey="sitekey"
+      />
+    </div>
 
   </v-container>
 
@@ -56,16 +63,34 @@
 </template>
 
 <script>
+  import VueRecaptcha from 'vue-recaptcha'
   export default {
     name: "SignInComponent",
     data(){
       return{
         login:"",
         password:"",
-        flag: false
+        flag: false,
+        sitekey: '6Lego-gUAAAAAICYKh-H0IHFvbGG1f94Bh4klZRG'
       }
     },
+    components:{
+      VueRecaptcha
+    },
     methods:{
+      validate () {
+        this.$refs.recaptcha.execute()
+      },
+      register (recaptchaToken) {
+        /*axios.post('https://yourserverurl.com/register', {
+          email: this.email,
+          password: this.password,
+          recaptchaToken: recaptchaToken
+        })*/
+      },
+      onCaptchaExpired () {
+        this.$refs.recaptcha.reset()
+      },
       submit(){
         let vm = this
         this.$http.post("/api/login",{
