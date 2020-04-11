@@ -36,7 +36,7 @@
                     </v-btn>
                 </v-badge>
 
-                <v-btn icon >
+                <v-btn icon to="/usercabinet">
                     <v-icon>mdi-account</v-icon>
                 </v-btn>
                 <v-btn icon to="/signin">

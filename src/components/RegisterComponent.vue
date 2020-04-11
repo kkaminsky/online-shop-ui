@@ -47,7 +47,7 @@
 
 
             <v-flex  v-if="select==='vk'" class="mt-5 mb-5 text-xs-center">
-              <v-btn @click="oauth()">
+              <v-btn @click="oauth()" text>
                 Регистрация с помощью Вконтакте
               </v-btn>
             </v-flex>

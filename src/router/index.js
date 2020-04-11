@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from "../views/SignIn";
 import Register from "../views/Register";
+import ResetPassword from "../views/ResetPassword";
+import UserCabinet from "../views/UserCabinet";
 
 Vue.use(VueRouter)
 
@@ -22,6 +24,18 @@ const routes = [
     path:'/register',
     name: 'register',
     component: Register,
+    meta:{requiresAuth:false}
+  },
+  {
+    path: '/resetpassword',
+    name: 'resetpassword',
+    component: ResetPassword,
+    meta:{requiresAuth:false}
+  },
+  {
+    path: '/usercabinet',
+    name: 'usercabinet',
+    component: UserCabinet,
     meta:{requiresAuth:false}
   },
   {
