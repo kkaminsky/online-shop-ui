@@ -15,21 +15,32 @@
                 </template>
 
                 <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+                <v-btn text to="/">
+                    <v-toolbar-title>Simple Online Shop</v-toolbar-title>
+                </v-btn>
 
-                <v-toolbar-title>Simple Online Shop</v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon>
-                    <v-icon>mdi-magnify</v-icon>
-                </v-btn>
+                <v-badge
 
-                <v-btn icon>
-                    <v-icon>mdi-heart</v-icon>
-                </v-btn>
+                        :content="messages"
+                        :value="messages"
+                        color="red"
+                        overlap
+                        offset-x="20"
+                        offset-y="15"
+                >
+                    <v-btn icon >
+                        <v-icon>mdi-cart</v-icon>
+                    </v-btn>
+                </v-badge>
 
-                <v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon>
+                <v-btn icon >
+                    <v-icon>mdi-account</v-icon>
+                </v-btn>
+                <v-btn icon to="/signin">
+                    <v-icon>mdi-exit-to-app</v-icon>
                 </v-btn>
             </v-app-bar>
 
@@ -94,6 +105,7 @@
         },
 
         data: () => ({
+            messages: 4,
             drawer: false,
         }),
     };
