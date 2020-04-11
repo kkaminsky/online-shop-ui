@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from "../views/SignIn";
 import Register from "../views/Register";
+import ListGames from "../views/ListGames";
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     name: 'register',
     component: Register,
     meta:{requiresAuth:false}
+  },
+  {
+    path:'/list-games',
+    name: 'list-games',
+    component: ListGames
   },
   {
     path: '/about',
