@@ -5,6 +5,8 @@ import SignIn from "../views/SignIn";
 import Register from "../views/Register";
 import ResetPassword from "../views/ResetPassword";
 import UserCabinet from "../views/UserCabinet";
+import Cart from "../views/Cart";
+import Checkout from "../views/Checkout";
 
 Vue.use(VueRouter)
 
@@ -39,6 +41,18 @@ const routes = [
     meta:{requiresAuth:false}
   },
   {
+    path: '/cart',
+    name: 'cart',
+    component: Cart,
+    meta:{requiresAuth:false}
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: Checkout,
+    meta:{requiresAuth:true}
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -49,7 +63,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router
