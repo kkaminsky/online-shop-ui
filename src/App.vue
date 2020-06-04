@@ -78,6 +78,14 @@
                         <v-list-item-content >Home</v-list-item-content>
                     </v-list-item>
 
+                    <v-list-item to="/list-games">
+                        <v-list-item-icon>
+                            <v-icon>mdi-cart</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-content >Products</v-list-item-content>
+                    </v-list-item>
+
                     <v-list-item to="/about">
                         <v-list-item-icon>
                             <v-icon>mdi-account</v-icon>
@@ -96,7 +104,7 @@
 </template>
 <script>
     import HelloWorld from './components/HelloWorld';
-
+    import inCartGames from "./data/inCartGames";
     export default {
         name: 'App',
 
@@ -105,9 +113,14 @@
         },
 
         data: () => ({
-            messages: 4,
             drawer: false,
         }),
+
+        computed:{
+            messages(){
+                return this.$store.state.inCartGames.length
+            }
+        }
     };
 </script>
 <style lang="scss">

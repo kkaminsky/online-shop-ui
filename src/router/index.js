@@ -7,6 +7,7 @@ import ResetPassword from "../views/ResetPassword";
 import UserCabinet from "../views/UserCabinet";
 import Cart from "../views/Cart";
 import Checkout from "../views/Checkout";
+import ListGames from "../views/ListGames";
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
     name: 'checkout',
     component: Checkout,
     meta:{requiresAuth:true}
+  },
+  {
+    path:'/list-games',
+    name: 'list-games',
+    component: ListGames
   },
   {
     path: '/about',

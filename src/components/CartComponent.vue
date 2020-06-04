@@ -27,7 +27,7 @@
                             class="elevation-3"
                     >
                         <template v-slot:body="{ items }">
-                                <tr v-for="item in items" :key="item.name">
+                                <tr v-for="item in items" :key="item.id">
                                     <td width="10%" align="left">
                                         <v-select  outlined dense  v-model="item.count" :items="[1,2,3,4,5]" class="mt-5">
 
@@ -37,20 +37,20 @@
                                         Pictrue
                                     </td >
                                     <td align="left">
-                                        {{item.name}}
+                                        {{item.name+item.id}}
                                     </td>
                                     <td align="left">
                                         Status
                                     </td>
                                     <td align="left">
-                                        {{item.price}}
+                                        {{item.cost}}
                                     </td>
                                     <td align="left">
-                                        {{item.price * item.count}}
+                                        {{item.cost * item.count}}
                                     </td>
                                     <td>
 
-                                            <v-icon small >
+                                            <v-icon small @click="delete1(item)">
                                                 mdi-delete
                                             </v-icon>
 
@@ -88,37 +88,7 @@
 </template>
 
 <script>
-    const products = [
-        {
-            name: 'Product1',
-            count:1,
-            description:'fsdfsf',
-            status: '',
-            price: 114.94,
-
-        },
-        {
-            name: 'Product2',
-            description:'fsdfsf',
-            count:1,
-            status: '',
-            price: 114.94,
-        },
-        {
-            name: 'Product3',
-            description:'fsdfsf',
-            count:1,
-            status: '',
-            price: 114.94,
-        },
-        {
-            name: 'Product4',
-            description:'fsdfsf',
-            count:1,
-            status: '',
-            price: 114.94,
-        }
-    ];
+   import inCartGames from "../data/inCartGames";
 
     export default {
         name: "CartComponent",
@@ -147,7 +117,6 @@
                         href: 'breadcrumbs_link_2',
                     }
                 ],
-                items: products,
                 search: null,
                 slots: [
                     'body',
@@ -172,7 +141,7 @@
                     { text: '',sortable: false },
                     { text: 'Product description', value: 'calories' ,sortable: false},
                     { text: 'Current status'},
-                    { text: 'Unit Price', value: 'carbs' },
+                    { text: 'Unit Price', value: 'cost' },
                     { text: 'Amount', value: 'protein' },
                     { text: '',sortable: false },
                 ],
@@ -180,13 +149,16 @@
         },
 
         computed: {
+            items(){
+                return this.$store.state.inCartGames
+            },
             showSelect () {
                 return this.isEnabled('header.data-table-select') || this.isEnabled('item.data-table-select')
             },
             subTotal(){
                 let a = 0;
                 this.items.forEach(item=>{
-                    a+=item.count*item.price
+                    a+=item.count*item.cost
                 })
               return a
             },
@@ -215,6 +187,9 @@
             isEnabled (slot) {
                 return this.enabled === slot
             },
+            delete1(game){
+                this.$store.commit('deleteFormCart',game)
+            }
         }
     }
 </script>
