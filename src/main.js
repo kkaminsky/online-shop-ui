@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import YmapPlugin from 'vue-yandex-maps'
 import Axios from "axios"
+import '@mdi/font/css/materialdesignicons.css'
 
 const settings = {
   apiKey: '59a55828-0cd7-468b-a92c-c702d2937654',
