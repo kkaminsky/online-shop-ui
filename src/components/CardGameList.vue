@@ -6,7 +6,7 @@
             <div>Cost: {{gameObj.cost}}</div>
         </v-card-text>
         <v-card-actions>
-            <v-btn text color="normal">Read more</v-btn>
+<!--            <v-btn text color="normal">Read more</v-btn>-->
             <v-btn text color="primary" @click="buy(gameObj)" :disabled="disableBuy">Buy</v-btn>
 
         </v-card-actions>

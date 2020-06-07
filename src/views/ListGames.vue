@@ -4,20 +4,20 @@
             <v-col md="1">
 
             </v-col>
-            <v-col md="5">
-                <v-select
-                        :items="filterTypes"
-                        label="Фильтр по типу"
-                        outlined
-                ></v-select>
-            </v-col>
-            <v-col md="5">
-                <v-select
-                        :items="filterGenres"
-                        label="Фильтр по жанру"
-                        outlined
-                ></v-select>
-            </v-col>
+<!--            <v-col md="5">-->
+<!--                <v-select-->
+<!--                        :items="filterTypes"-->
+<!--                        label="Фильтр по типу"-->
+<!--                        outlined-->
+<!--                ></v-select>-->
+<!--            </v-col>-->
+<!--            <v-col md="5">-->
+<!--                <v-select-->
+<!--                        :items="filterGenres"-->
+<!--                        label="Фильтр по жанру"-->
+<!--                        outlined-->
+<!--                ></v-select>-->
+<!--            </v-col>-->
             <v-col md="1">
 
             </v-col>
@@ -41,11 +41,20 @@
 <script>
     import listGames from "../data/listGames";
     import CardGameList from "../components/CardGameList";
+
     export default {
         name: "ListGames",
+        created() {
+          this.$store.dispatch('requestListGames')
+        },
+        computed: {
+          listGames() {
+              return this.$store.state.listGames
+          }
+
+        },
         data() {
             return {
-                listGames: listGames,
                 filterTypes: [
                     {
                         text: 'Для всей семьи',

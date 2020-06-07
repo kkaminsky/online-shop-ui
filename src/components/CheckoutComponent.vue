@@ -51,7 +51,7 @@
             <v-col cols="2"></v-col>
             <v-col cols="6"></v-col>
             <v-col cols="2">
-                <v-btn color="info"  to="/payment">go to payment</v-btn>
+                <v-btn color="info"  to="/confirm">go to confirm</v-btn>
             </v-col>
             <v-col cols="2"></v-col>
         </v-row>

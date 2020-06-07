@@ -8,6 +8,7 @@ import UserCabinet from "../views/UserCabinet";
 import Cart from "../views/Cart";
 import Checkout from "../views/Checkout";
 import ListGames from "../views/ListGames";
+import Confirm from "../views/Confirm";
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,12 @@ const routes = [
     path: '/checkout',
     name: 'checkout',
     component: Checkout,
+    meta:{requiresAuth:true}
+  },
+  {
+    path: '/confirm',
+    name: 'confirm',
+    component: Confirm,
     meta:{requiresAuth:true}
   },
   {

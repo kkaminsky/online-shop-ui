@@ -106,11 +106,7 @@
                         disabled: true,
                         href: 'breadcrumbs_link_1',
                     },
-                    {
-                        text: 'Payment',
-                        disabled: true,
-                        href: 'breadcrumbs_link_2',
-                    },
+
                     {
                         text: 'Confirm',
                         disabled: true,
