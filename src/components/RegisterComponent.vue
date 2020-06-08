@@ -80,7 +80,15 @@
                 required
               ></v-text-field>
 
-              <v-btn  @click="submit" color="primary" text>submit</v-btn>
+              <v-text-field
+                      type="password"
+                      v-model="repeatPassword"
+                      label="Repeat password"
+                      data-vv-name="repeatPassword"
+                      required
+              ></v-text-field>
+              <span v-if="this.password.length > 0 && !passwordsCorrect" :style="{color: 'red', display: 'block'}">Пароли не совпадают</span>
+              <v-btn  @click="submit" color="primary" :disabled="this.password.length === 0 || !passwordsCorrect" text>submit</v-btn>
             </v-flex>
 
 
@@ -99,6 +107,8 @@
 </template>
 
 <script>
+    import {requests} from "../api";
+
     export default {
       name: "RegisterComponent",
       data(){
@@ -106,12 +116,18 @@
           login:"",
           name:"",
           password:"",
+          repeatPassword: "",
           select: 'email',
           items: [
-            'email',
-            'phone',
-            'vk'
+            'email'
+          //   'phone',
+          //   'vk'
           ]
+        }
+      },
+      computed: {
+        passwordsCorrect () {
+          return this.password === this.repeatPassword
         }
       },
       methods:{
@@ -120,20 +136,25 @@
         },
         submit(){
           let vm = this
-          this.$http.post("/api/register",{
-            "login":this.login,
-            "password":this.password,
-            "name":this.name,
-            "method":this.select
-          }).then(res=>{
-
-            localStorage.setItem("username",this.name)
-            //vm.flag = true
-            vm.$router.push("/confirm")
-          },e=>{
-            console.log(Object.keys(e.response.data))
-            alert("Ошибка!" + e.response.data.message)
+          requests.signup(this.login, this.name, this.password).then(success => {
+            if (success) {
+              console.log(success)
+            }
           })
+          // this.$http.post("/api/register",{
+          //   "login":this.login,
+          //   "password":this.password,
+          //   "name":this.name,
+          //   "method":this.select
+          // }).then(res=>{
+          //
+          //   localStorage.setItem("username",this.name)
+          //   //vm.flag = true
+          //   vm.$router.push("/confirm")
+          // },e=>{
+          //   console.log(Object.keys(e.response.data))
+          //   alert("Ошибка!" + e.response.data.message)
+          // })
         },
         oauth(){
           let vm = this

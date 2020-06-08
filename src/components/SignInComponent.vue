@@ -21,7 +21,7 @@
 
           <v-text-field
             v-model="login"
-            label="E-mail or phone or name"
+            label="E-mail"
             data-vv-name="email"
             required
           ></v-text-field>
@@ -35,9 +35,9 @@
             required
           ></v-text-field>
           <div align="right">
-            <v-btn small text to="/resetpassword">
-              Forgot password
-            </v-btn>
+<!--            <v-btn small text to="/resetpassword">-->
+<!--              Forgot password-->
+<!--            </v-btn>-->
             <v-btn small text  to="/register">
               Register
             </v-btn>
@@ -64,6 +64,7 @@
 
 <script>
   import VueRecaptcha from 'vue-recaptcha'
+  import {requests} from "../api";
   export default {
     name: "SignInComponent",
     data(){
@@ -93,15 +94,10 @@
       },
       submit(){
         let vm = this
-        this.$http.post("/api/login",{
-          "login":this.login,
-          "password":this.password
-        }).then(res=>{
-          localStorage.setItem("username",res.data)
-          localStorage.setItem("enable","true")
-          vm.$router.push("/usercabinet")
-        },e=>{
-          alert("Ошибка!" + e.response.data.message)
+        requests.signin(this.login, this.password).then(res => {
+            localStorage.setItem("username", res.username)
+            localStorage.setItem("enable","true")
+            localStorage.setItem("token", res.token)
         })
       }
 
