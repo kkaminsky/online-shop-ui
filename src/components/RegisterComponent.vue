@@ -2,7 +2,10 @@
   <v-container fluid>
 
       <v-flex xs12 sm8 md4 offset-md4>
-        <v-card>
+        <v-card v-if="registerSuccessful === true">
+          <div class="center mb-2 mt-2">Аккаунт был успешно зарегистрирован</div>
+        </v-card>
+        <v-card v-if="registerSuccessful === false">
           <v-img
             class="white--text"
             height="200px"
@@ -62,6 +65,8 @@
                 required
               ></v-text-field>
 
+              <v-card v-if="errorText.length !== 0">{{errorText}}</v-card>
+
               <v-text-field
                             v-model="login"
                             :label="select"
@@ -113,8 +118,10 @@
       name: "RegisterComponent",
       data(){
         return{
+          registerSuccessful: false,
           login:"",
           name:"",
+          errorText: "",
           password:"",
           repeatPassword: "",
           select: 'email',
@@ -136,9 +143,11 @@
         },
         submit(){
           let vm = this
-          requests.signup(this.login, this.name, this.password).then(success => {
-            if (success) {
-              console.log(success)
+          requests.signup(this.login, this.name, this.password).then(res => {
+            if (res.success) {
+              this.registerSuccessful = true
+            } else {
+              this.errorText = res.message
             }
           })
           // this.$http.post("/api/register",{

@@ -27,22 +27,27 @@ const requests = {
         })
     },
     signin (email, password) {
-        return axios.post(API_ENDPOINTS.SIGNIN, {email: email, password: password}).then(res => {
+        return axios.post(API_ENDPOINTS.SIGNIN, {email: email, password: password, response: '123'}).then(res => {
                 return res.data
             }
-        )
+        ).catch(error => {
+            console.log(error.response.data)
+            return error.response.data
+        })
     },
     signup (email, name, password) {
         return axios.post(API_ENDPOINTS.REGISTER, {
             email,
             password,
             username:name,
-            phoneNumber: '123',
+            // phoneNumber: '123',
             response: 'string'
         }).then(res => {
-            return res.data.success
+            return res.data
+        }).catch(error =>  {
+           return error.response.data
         })
-    }
+    },
 }
 
 export {requests}

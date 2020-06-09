@@ -18,7 +18,9 @@
           </v-container>
         </v-img>
         <v-card-text>
-
+          <v-card>
+              {{errorText}}
+          </v-card>
           <v-text-field
             v-model="login"
             label="E-mail"
@@ -42,7 +44,7 @@
               Register
             </v-btn>
           </div>
-          <v-btn @click="submit" large text class="my-2" color="primary">submit</v-btn>
+          <v-btn :disabled="!disableButton" @click="submit" large text class="my-2" color="primary">submit</v-btn>
 
         </v-card-text>
 
@@ -51,10 +53,10 @@
 
     </v-flex>
     <div align="right">
-      <vue-recaptcha
+<!--      <vue-recaptcha-->
 
-              :sitekey="sitekey"
-      />
+<!--              :sitekey="sitekey"-->
+<!--      />-->
     </div>
 
   </v-container>
@@ -72,11 +74,18 @@
         login:"",
         password:"",
         flag: false,
+        loginSuccessfull: false,
+        errorText: '',
         sitekey: '6Lego-gUAAAAAICYKh-H0IHFvbGG1f94Bh4klZRG'
       }
     },
     components:{
       VueRecaptcha
+    },
+    computed: {
+      disableButton () {
+          return this.login.length > 0 && this.password.length > 0
+      }
     },
     methods:{
       validate () {
@@ -95,9 +104,14 @@
       submit(){
         let vm = this
         requests.signin(this.login, this.password).then(res => {
-            localStorage.setItem("username", res.username)
-            localStorage.setItem("enable","true")
-            localStorage.setItem("token", res.token)
+            if (res.success) {
+                localStorage.setItem("username", res.username)
+                localStorage.setItem("enable","true")
+                localStorage.setItem("token", res.token)
+            } else {
+                this.errorText = res.message
+            }
+
         })
       }
 
