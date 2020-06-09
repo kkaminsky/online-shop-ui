@@ -2,7 +2,8 @@
   <v-container fluid>
 
     <v-flex  md4 offset-md4>
-      <v-card>
+      <v-card v-if="token"><v-btn @click="logout()"> Logout</v-btn></v-card>
+      <v-card v-if="!token">
         <v-img
           class="white--text"
           height="200px"
@@ -11,6 +12,7 @@
         >
           <v-container fill-height fluid>
             <v-layout fill-height>
+
               <v-flex xs12 align-end flexbox>
                 <span class="headline " style="float: right">SignIn</span>
               </v-flex>
@@ -44,7 +46,7 @@
               Register
             </v-btn>
           </div>
-          <v-btn :disabled="!disableButton" @click="submit" large text class="my-2" color="primary">submit</v-btn>
+          <v-btn :disabled="!disableButton" @click="submit()" large text class="my-2" color="primary">submit</v-btn>
 
         </v-card-text>
 
@@ -65,14 +67,20 @@
 </template>
 
 <script>
+    function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
   import VueRecaptcha from 'vue-recaptcha'
   import {requests} from "../api";
   export default {
     name: "SignInComponent",
     data(){
-      return{
+      return {
+
         login:"",
         password:"",
+          token: null,
         flag: false,
         loginSuccessfull: false,
         errorText: '',
@@ -82,9 +90,17 @@
     components:{
       VueRecaptcha
     },
+  beforeMount() {
+      this.token = localStorage.getItem('token')
+  },
     computed: {
+
+      logout () {
+        localStorage.removeItem('token')
+          this.token = null
+      },
       disableButton () {
-          return this.login.length > 0 && this.password.length > 0
+          return validateEmail(this.login) && this.login.length > 0 && this.password.length > 0
       }
     },
     methods:{
@@ -105,9 +121,12 @@
         let vm = this
         requests.signin(this.login, this.password).then(res => {
             if (res.success) {
+                localStorage.setItem("userId", res.userId)
+                localStorage.setItem("login", this.login)
                 localStorage.setItem("username", res.username)
                 localStorage.setItem("enable","true")
                 localStorage.setItem("token", res.token)
+                this.token = res.token
             } else {
                 this.errorText = res.message
             }

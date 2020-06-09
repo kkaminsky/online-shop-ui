@@ -93,7 +93,7 @@
                       required
               ></v-text-field>
               <span v-if="this.password.length > 0 && !passwordsCorrect" :style="{color: 'red', display: 'block'}">Пароли не совпадают</span>
-              <v-btn  @click="submit" color="primary" :disabled="this.password.length === 0 || !passwordsCorrect" text>submit</v-btn>
+              <v-btn  @click="submit" color="primary" :disabled="this.password.length === 0 || !passwordsCorrect || !validateEmail(login)" text>submit</v-btn>
             </v-flex>
 
 
@@ -112,6 +112,10 @@
 </template>
 
 <script>
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
     import {requests} from "../api";
 
     export default {
@@ -125,6 +129,7 @@
           password:"",
           repeatPassword: "",
           select: 'email',
+          token: null,
           items: [
             'email'
           //   'phone',
@@ -132,7 +137,9 @@
           ]
         }
       },
+
       computed: {
+
         passwordsCorrect () {
           return this.password === this.repeatPassword
         }

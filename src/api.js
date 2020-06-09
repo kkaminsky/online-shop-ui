@@ -3,7 +3,8 @@ const API_ENDPOINTS = {
     LIST_GAMES: API_URL + 'api/shop/games/list',
     CREATE_ORDER: API_URL + 'api/shop/order/create',
     SIGNIN: API_URL + 'api/auth/signin',
-    REGISTER: API_URL + 'api/auth/signup'
+    REGISTER: API_URL + 'api/auth/signup',
+    LIST_ORDERS: API_URL + 'api/shop/order/'
 }
 import axios from 'axios'
 
@@ -14,15 +15,27 @@ const requests = {
                 return {
                     id: item.id,
                     name: item.title,
-                    cost: 0.0,
+                    cost: item.cost ? item.cost : 0,
                     count: 1,
-                    img: "https://cs1.livemaster.ru/storage/6f/b7/28e11f07c9b26c017e888310e46a--aktivnyj-otdyh-i-razvlecheniya-igra-nastolnaya-parchis.jpg"
+                    img: item.photo_url ? item.photo_url : "https://cs1.livemaster.ru/storage/6f/b7/28e11f07c9b26c017e888310e46a--aktivnyj-otdyh-i-razvlecheniya-igra-nastolnaya-parchis.jpg"
                 }
             })
         })
     },
     createOrder(items, userId) {
-        return axios.post(API_ENDPOINTS.CREATE_ORDER, {games: items, userId: userId}).then(res => {
+        let address = localStorage.getItem('address')
+        return axios.post(API_ENDPOINTS.CREATE_ORDER, {
+            games: items,
+            userId: userId,
+            delivery: {
+                city: address,
+                country: '',
+                flatNumber: '',
+                floor: '',
+                number: '',
+                street: ''
+            }
+        }).then(res => {
             return res.data.success
         })
     },
@@ -39,7 +52,7 @@ const requests = {
         return axios.post(API_ENDPOINTS.REGISTER, {
             email,
             password,
-            username:name,
+            username: name,
             // phoneNumber: '123',
             response: 'string'
         }).then(res => {
@@ -48,6 +61,11 @@ const requests = {
            return error.response.data
         })
     },
+    getOrders (token, userId) {
+        return axios.get(API_ENDPOINTS.LIST_ORDERS + userId + '/list', {}).then(res => {
+            return res.data
+        })
+    }
 }
 
 export {requests}

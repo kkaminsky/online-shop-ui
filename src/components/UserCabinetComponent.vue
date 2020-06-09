@@ -1,10 +1,21 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row v-if="!token">
+            <v-col cols="2"></v-col>
+            <v-col cols="8">
+                <v-card>
+                    <div class="center mb-2 mt-2">
+                        Сначала авторизуйтесь
+                    </div>
+                </v-card>
+            </v-col>
+            <v-col cols="2"></v-col>
+        </v-row>
+        <v-row v-if="token">
             <v-col cols="2">
 
             </v-col>
-            <v-col cols="9">
+            <v-col  cols="9">
 
                 <v-card
                         class="pa-2"
@@ -14,8 +25,7 @@
                     <v-list-item three-line>
                         <v-list-item-content>
                             <div class="overline mb-4">USER</div>
-                            <v-list-item-title class="headline mb-1">Nickname</v-list-item-title>
-                            <v-list-item-subtitle>Since 29 january 2018</v-list-item-subtitle>
+                            <v-list-item-title class="headline mb-1">{{nick}}</v-list-item-title>
                         </v-list-item-content>
 
                         <v-list-item-avatar
@@ -45,86 +55,7 @@
                 </v-card>
             </v-col>
             <v-col cols="4" align="left">
-                <v-card
-                        class="pa-10"
-                        raised
-                        tile
 
-                >
-                    <v-list-item >
-                        <v-list-item-content>
-                            <v-list-item-title class="headline mb-1">Main info</v-list-item-title>
-                            <v-list-item-subtitle>Contact data</v-list-item-subtitle>
-                        </v-list-item-content>
-
-                    </v-list-item>
-
-
-                    <v-list two-line>
-                        <v-list-item @click="">
-                            <v-list-item-icon>
-                                <v-icon color="indigo">mdi-phone</v-icon>
-                            </v-list-item-icon>
-
-                            <v-list-item-content>
-                                <v-list-item-title>(650) 555-1234</v-list-item-title>
-                                <v-list-item-subtitle>Mobile</v-list-item-subtitle>
-                            </v-list-item-content>
-
-                            <!--<v-list-item-icon>
-                                <v-icon>mdi-message-text</v-icon>
-                            </v-list-item-icon>-->
-                        </v-list-item>
-
-                        <v-list-item @click="">
-                            <v-list-item-action></v-list-item-action>
-
-                            <v-list-item-content>
-                                <v-list-item-title>(323) 555-6789</v-list-item-title>
-                                <v-list-item-subtitle>Work</v-list-item-subtitle>
-                            </v-list-item-content>
-
-                            <!--<v-list-item-icon>
-                                <v-icon>mdi-message-text</v-icon>
-                            </v-list-item-icon>-->
-                        </v-list-item>
-
-                        <v-divider inset></v-divider>
-
-                        <v-list-item @click="">
-                            <v-list-item-icon>
-                                <v-icon color="indigo">mdi-email</v-icon>
-                            </v-list-item-icon>
-
-                            <v-list-item-content>
-                                <v-list-item-title>aliconnors@example.com</v-list-item-title>
-                                <v-list-item-subtitle>Personal</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-
-                        <v-list-item @click="">
-                            <v-list-item-action></v-list-item-action>
-
-                            <v-list-item-content>
-                                <v-list-item-title>ali_connors@example.com</v-list-item-title>
-                                <v-list-item-subtitle>Work</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-
-                        <v-divider inset></v-divider>
-
-                        <v-list-item @click="">
-                            <v-list-item-icon>
-                                <v-icon color="indigo">mdi-map-marker</v-icon>
-                            </v-list-item-icon>
-
-                            <v-list-item-content>
-                                <v-list-item-title>1400 Main Street</v-list-item-title>
-                                <v-list-item-subtitle>Orlando, FL 79938</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-card>
             </v-col>
             <v-col cols="6">
                 <v-card
@@ -135,12 +66,11 @@
                     <v-container fluid>
                         <v-subheader>Your orders</v-subheader>
                         <v-row justify="center">
-                            <v-subheader>Today</v-subheader>
 
 
                             <v-expansion-panels popout>
                                 <v-expansion-panel
-                                        v-for="(message, i) in messages"
+                                        v-for="(message, i) in listOrders"
                                         :key="i"
                                         hide-actions
                                 >
@@ -155,20 +85,7 @@
                                                     sm="2"
                                                     md="1"
                                             >
-                                                <v-avatar
-                                                        size="36px"
-                                                >
-                                                    <img
-                                                            v-if="message.avatar"
-                                                            alt="Avatar"
-                                                            src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
-                                                    >
-                                                    <v-icon
-                                                            v-else
-                                                            :color="message.color"
-                                                            v-text="message.icon"
-                                                    ></v-icon>
-                                                </v-avatar>
+
                                             </v-col>
 
                                             <v-col
@@ -176,11 +93,12 @@
                                                     sm="5"
                                                     md="3"
                                             >
-                                                <strong>Order {{i+1}}</strong>
+                                                <strong>Order {{message.id}}</strong>
                                                 <span
                                                         v-if="message.total"
                                                         class="grey--text"
                                                 >
+
                                                         &nbsp;({{ message.total }})
                                                 </span>
                                             </v-col>
@@ -207,14 +125,20 @@
                                                     class="grey--text text-truncate hidden-sm-and-down"
                                             >
                                                 &mdash;
-                                                {{ message.excerpt }}
+                                                тест
                                             </v-col>
                                         </v-row>
                                     </v-expansion-panel-header>
 
                                     <v-expansion-panel-content>
                                         <v-divider></v-divider>
-                                        <v-card-text v-text="lorem"></v-card-text>
+                                        <v-card-text>
+                                            <div>address: {{message.delivery.city}}</div>
+                                            <div>cost: {{message.cost}}</div>
+                                            <div>status: {{message.status}}</div>
+                                            <div>Состав заказа:</div>
+                                            <div v-for="itemGame in message.games"> {{itemGame}}</div>
+                                        </v-card-text>
                                     </v-expansion-panel-content>
                                 </v-expansion-panel>
                             </v-expansion-panels>
@@ -228,9 +152,29 @@
 </template>
 
 <script>
+    import {requests} from "../api";
+
     export default {
         name: "UserCabinetComponent",
+        beforeMount() {
+            this.nick = localStorage.getItem('login')
+            this.token = localStorage.getItem('token')
+            this.userId = localStorage.getItem('userId')
+            if (this.token) {
+                requests.getOrders(this.token, this.userId).then(data => {
+                    console.log('res', data)
+                    this.listOrders = data.payload
+                })
+            }
+        },
+        created () {
+
+        },
         data: () => ({
+            userId: [],
+            listOrders: [],
+            nick : '',
+            token: '',
             messages: [
                 {
                     color: 'red',

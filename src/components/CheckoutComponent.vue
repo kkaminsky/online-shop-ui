@@ -105,6 +105,8 @@
                         console.log(res)
                         this.address = null
                         this.address = res.data.response.GeoObjectCollection.featureMember[0].GeoObject.name
+
+                        localStorage.setItem('address', this.address)
                         //this.addressPoints = res.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
                     },
                     err=>{

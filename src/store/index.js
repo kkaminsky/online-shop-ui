@@ -20,7 +20,7 @@ const store = new Vuex.Store({
             state.inCartGames = state.inCartGames.filter(g=>g.id !== game.id)
         },
         clearCart(state) {
-            stat.inCartGames = []
+            state.inCartGames = []
         }
     },
     actions: {
@@ -32,12 +32,15 @@ const store = new Vuex.Store({
         createOrder ({state, commit}) {
             let orderPayload = []
             state.inCartGames.forEach(item => {
-                orderPayload.append(Array(item.count).fill(item.id))
+                console.log('item')
+                console.log('items', Array(item.count).fill(item.id))
+                orderPayload = orderPayload.concat(Array(item.count).fill(item.id))
             })
-            requests.createOrder(orderPayload ,0).then(success => {
+            let idUser = localStorage.getItem('userId')
+            requests.createOrder(orderPayload, idUser).then(success => {
                 state.orderSuccesfulCreated = success
             })
-            commit('clearCart')
+            // commit('clearCart')
         }
     }
 })
